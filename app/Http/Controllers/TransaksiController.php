@@ -2,85 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Transaksi;
-use App\Http\Requests\StoreTransaksiRequest;
-use App\Http\Requests\UpdateTransaksiRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 class TransaksiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function gettransaksi(){
+        $data = Transaksi::select()
+            ->join('members','transaksis.id','=','members.id_member')
+            ->join('barangs','transaksis.id','=','barangs.id_barang')
+            ->select('id','nama_member','nama_barang','tanggal_beli','status','tanggal_dikirim','tanggal_sampai')
+            ->get();
+            return response()->json($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function pilihtransaksi($id){
+        $data = Transaksi::where('id','=', $id)
+        ->join('members','transaksis.id','=','members.id_member')
+        ->join('barangs','transaksis.id','=','barangs.id_barang')
+        ->select('id','nama_member','nama_barang','tanggal_beli','status','tanggal_dikirim','tanggal_sampai')
+        ->get();;
+            return response()->json($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreTransaksiRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreTransaksiRequest $request)
-    {
-        //
+    public function createtransaksi(Request $request){
+
+        $tgl_beli = now();
+
+        $data = Transaksi::create([
+            'id_siswa' => $request->input('id_siswa'),
+            'id_barang' => $request->input('id_barang'),
+            'tanggal_beli' => $tgl_beli,
+            'status' => 'proses',
+        ]);
+            return response()->json(['pesan' => 'Berhasil menambah transaksi']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Transaksi  $transaksi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Transaksi $transaksi)
-    {
-        //
+    public function updatekirim($id){
+
+        $tgl_kirim = now();
+
+        $data = Transaksi::where('id','=',$id)->update([
+            'status' => 'dikirim',
+            'tanggal_dikirim' => $tgl_kirim
+        ]);
+            return response()->json(['pesan' => 'berhasil update status' , 'status' => 'dikirim']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Transaksi  $transaksi
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Transaksi $transaksi)
-    {
-        //
+    public function updatesampai($id){
+
+        $tgl_sampai = now();
+
+        $data = Transaksi::where('id','=',$id)->update([
+            'status' => 'sampai',
+            'tanggal_sampai' => $tgl_sampai,
+        ]);
+            return response()->json(['pesan' => 'Berhasil update status' , 'status' => 'sampai']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateTransaksiRequest  $request
-     * @param  \App\Models\Transaksi  $transaksi
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Transaksi  $transaksi
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Transaksi $transaksi)
-    {
-        //
+    public function deletetransaksi($id){
+        $data = Transaksi::where('id','=',$id)->delete();
+            return response()->json(['Message' => 'Sukses hapus siswa']);
     }
 }

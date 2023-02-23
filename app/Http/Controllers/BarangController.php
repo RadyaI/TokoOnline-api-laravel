@@ -13,7 +13,7 @@ class BarangController extends Controller
     }
 
     public function pilihbarang($id){
-        $barang = barang::find($id)->get();
+        $barang = barang::where('id','=',$id)->get();
             return response()->json($barang);
     }
 
@@ -28,7 +28,7 @@ class BarangController extends Controller
     }
 
     public function updatebarang(Request $request, $id){
-        $barang = barang::find($id)->update([
+        $barang = barang::where('id','=',$id)->update([
             'nama_barang' => $request->input('nama_barang'),
             'foto' => $request->input('foto'),
             'deskripsi' => $request->input('deskripsi'),
@@ -37,8 +37,8 @@ class BarangController extends Controller
             return response()->json(['pesan' => 'Sukses update barang']);
     }
 
-    public function deletesiswa($id){
-        $barang = barang::find($id)->delete();
+    public function deletebarang($id){
+        $barang = barang::where('id','=',$id)->delete();
             return response()->json(['pesan' => 'Sukses hapus barang']);
     }
 }

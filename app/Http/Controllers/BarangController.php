@@ -13,7 +13,7 @@ class BarangController extends Controller
     }
 
     public function pilihbarang($id){
-        $barang = barang::where('id','=',$id)->get();
+        $barang = barang::where('id_barang','=',$id)->get();
             return response()->json($barang);
     }
 

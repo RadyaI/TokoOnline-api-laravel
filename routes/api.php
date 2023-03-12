@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controller\PetugasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,12 @@ Route::post('/createtransaksi',[TransaksiController::class,'createtransaksi']);
 Route::put('/updatetransaksi/kirim/{id}',[TransaksiController::class,'updatekirim']);
 Route::put('/updatetransaksi/sampai/{id}',[TransaksiController::class,'updatesampai']);
 Route::delete('/deletetransaksi/{id}',[TransaksiController::class,'deletetransaksi']);
+
+// PETUGAS
+Route::get('/getpetugas',[PetugasController::class,'getpetugas']);
+Route::get('/getpetugas/{id}',[PetugasController::class,'getsatupetugas']);
+Route::post('/createpetugas',[PetugasController::class,'createpetugas']);
+Route::put('/editpetugas',[PetugasController::class,'editpetugas']);
+Route::delete('/deletepetugas',[PetugasController::class,'deletepetugas']);
+
 

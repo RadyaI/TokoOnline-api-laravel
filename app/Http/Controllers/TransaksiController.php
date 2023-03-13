@@ -29,7 +29,7 @@ class TransaksiController extends Controller
 
     public function createtransaksi(Request $request){
 
-        $tgl_beli = now();
+        $tgl_beli = Carbon::now();
 
         $data = Transaksi::create([
             'id_siswa' => $request->input('id_siswa'),
@@ -42,7 +42,7 @@ class TransaksiController extends Controller
 
     public function updatekirim($id){
 
-        $tgl_kirim = now();
+        $tgl_kirim = Carbon::now();
 
         $data = Transaksi::where('id','=',$id)->update([
             'status' => 'dikirim',
@@ -53,7 +53,7 @@ class TransaksiController extends Controller
 
     public function updatesampai($id){
 
-        $tgl_sampai = now();
+        $tgl_sampai = Carbon::now();
 
         $data = Transaksi::where('id','=',$id)->update([
             'status' => 'sampai',
